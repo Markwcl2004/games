@@ -1,0 +1,10 @@
+{
+  "name": "tank-battle",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "check-stages": "node tools/check-stages.mjs",
+    "serve": "python3 -m http.server 8642"
+  }
+}

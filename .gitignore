@@ -1,3 +1,3 @@
-node_modules/
-smoke-out/
+**/node_modules/
+**/smoke-out/
 .DS_Store

@@ -84,6 +84,35 @@ try {
     await sleep(2800);
     await shot(name);
   }
+  // drive the phone with real touches: menu button, joystick, fire, pause
+  const center = sel => evaluate(`(() => { const r = document.querySelector('${sel}').getBoundingClientRect(); return [r.left + r.width / 2, r.top + r.height / 2]; })()`);
+  const touch = (type, pts) => send('Input.dispatchTouchEvent', { type, touchPoints: pts.map(([x, y], i) => ({ x, y, id: i })) });
+  const tap = async sel => { const p = await center(sel); await touch('touchStart', [p]); await sleep(60); await touch('touchEnd', []); await sleep(300); };
+  await send('Page.navigate', { url: 'about:blank' });
+  await sleep(300);
+  await send('Page.navigate', { url: url + '#debug' });
+  await sleep(1200);
+  await tap('#btn-new');
+  await sleep(2800);
+  const touchCheck = { menuTapStartsGame: (await state())?.phase === 'play' };
+  const p0 = (await state()).player;
+  const [px, py] = await center('#pad');
+  await touch('touchStart', [[px, py]]); await touch('touchMove', [[px + 50, py]]);
+  await sleep(500);
+  await touch('touchEnd', []);
+  const p1 = (await state()).player;
+  touchCheck.joystickMoves = p1[0] > p0[0];
+  // count player shots; a bullet can hit a nearby wall before we look, so don't check g.bullets
+  await evaluate(`(() => { const g = window.__tb.game, f = g.fire.bind(g); window.__shots = 0; g.fire = (t, ...a) => { if (t === g.player) window.__shots++; return f(t, ...a); }; })()`);
+  await touch('touchStart', [await center('#fire')]);
+  await sleep(300);
+  await touch('touchEnd', []);
+  touchCheck.fireShoots = await evaluate('window.__shots > 0');
+  await tap('#pause-btn');
+  touchCheck.pauseShowsMenu = await evaluate(`!document.getElementById('paused').hidden`);
+  await tap('#btn-resume');
+  console.log('touch', touchCheck);
+  for (const [k, ok] of Object.entries(touchCheck)) if (!ok) problems.push('TOUCH ' + k + ' failed');
   await send('Emulation.setDeviceMetricsOverride', { width: 844, height: 390, deviceScaleFactor: 2, mobile: true, screenOrientation: { type: 'landscapePrimary', angle: 90 } });
   await sleep(800);
   await shot('9-rotated-to-landscape.png');

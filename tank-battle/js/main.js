@@ -15,6 +15,7 @@ const esc = s => String(s).replace(/[&<>"']/g, c => `&#${c.charCodeAt(0)};`);
 const backend = new LocalBackend();
 const sound = new Sound();
 const input = new Input();
+input.bindTouch($('pad'), $('knob'), $('fire'));
 const renderer = new Renderer($('screen'));
 const isTouch = matchMedia('(pointer: coarse)').matches;
 document.body.classList.toggle('touch', isTouch);

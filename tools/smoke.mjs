@@ -75,6 +75,19 @@ try {
   await send('Page.navigate', { url });
   await sleep(1200);
   await shot('6-phone-menu.png');
+  // portrait phones, then rotate to landscape mid-game
+  for (const [w, h, name] of [[375, 667, '7-portrait-small.png'], [390, 844, '8-portrait.png']]) {
+    await send('Emulation.setDeviceMetricsOverride', { width: w, height: h, deviceScaleFactor: 2, mobile: true, screenOrientation: { type: 'portraitPrimary', angle: 0 } });
+    await send('Page.navigate', { url: 'about:blank' });
+    await sleep(300);
+    await send('Page.navigate', { url: url + '#play-debug' });
+    await sleep(2800);
+    await shot(name);
+  }
+  await send('Emulation.setDeviceMetricsOverride', { width: 844, height: 390, deviceScaleFactor: 2, mobile: true, screenOrientation: { type: 'landscapePrimary', angle: 90 } });
+  await sleep(800);
+  await shot('9-rotated-to-landscape.png');
+  console.log('after rotate', await state());
   console.log(problems.length ? 'PROBLEMS:\n' + problems.join('\n') : 'no console errors or exceptions');
 } finally {
   chrome.kill();

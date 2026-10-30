@@ -116,12 +116,13 @@ tr.top1 td:first-child { color: var(--gold); }
   width: 48px; height: 40px; padding: 0; font-size: 14px; background: rgba(38, 38, 38, .7);
 }
 
-#rotate {
-  display: none; position: absolute; inset: 0; z-index: 50;
-  align-items: center; justify-content: center;
-  background: var(--bg); color: var(--gold); font-size: 22px; text-align: center; padding: 24px;
+/* portrait phones: game on top, controls in the space below */
+@media (orientation: portrait) {
+  body.touch #stage-wrap { align-items: flex-start; padding-top: max(12px, env(safe-area-inset-top)); }
+  body.touch #pad { bottom: max(40px, env(safe-area-inset-bottom)); }
+  body.touch #fire { bottom: max(58px, env(safe-area-inset-bottom)); }
+  body.touch #pause-btn { top: auto; right: auto; left: 50%; transform: translateX(-50%); bottom: max(24px, env(safe-area-inset-bottom)); }
 }
-@media (orientation: portrait) { body.touch.playing #rotate { display: flex; } }
 
 #toast {
   position: absolute; left: 50%; top: max(16px, env(safe-area-inset-top)); transform: translateX(-50%);

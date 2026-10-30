@@ -247,7 +247,8 @@ async function showBoard() {
 function fit() {
   const c = $('screen');
   let w = innerWidth, h = innerHeight;
-  if (isTouch && w > h) w -= 2 * 150; // leave room for the stick and fire button
+  // leave room for the stick and fire button: at the sides in landscape, below in portrait
+  if (isTouch) { if (w > h) w -= 2 * 150; else h -= 200; }
   let s = Math.min(w / SCREEN_W, h / SCREEN_H);
   if (s >= 2) s = Math.floor(s);
   s = Math.max(1, s);
@@ -255,6 +256,9 @@ function fit() {
   c.style.height = `${Math.floor(SCREEN_H * s)}px`;
 }
 addEventListener('resize', fit);
+// iOS can report the old size on the first event after a rotation, so measure again a bit later.
+addEventListener('orientationchange', () => { fit(); setTimeout(fit, 300); });
+window.visualViewport?.addEventListener('resize', fit);
 fit();
 
 document.addEventListener('visibilitychange', () => { if (document.hidden && game && !paused) togglePause(true); });

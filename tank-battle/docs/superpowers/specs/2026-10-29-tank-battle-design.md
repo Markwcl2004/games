@@ -1,8 +1,8 @@
 # 坦克大战（网页版）设计文档
 
 日期：2026-10-29
-仓库：`Markwcl2004/Markwcl2004.github.io` 的 `tank-battle/` 子目录（2026-10-30 从 `Markwcl2004/tank-battle` 改名，好放更多游戏，网址不变）
-网址：`https://markwcl2004.github.io/tank-battle`
+仓库：`Markwcl2004/games` 的 `tank-battle/` 子目录（2026-10-30 从 `Markwcl2004/tank-battle` 改名，好放更多游戏。`markwcl2004.github.io` 根目录留给用户的个人主页，不放游戏）
+网址：`https://markwcl2004.github.io/games/tank-battle/`。旧网址 `/tank-battle/` 由一个只放跳转页的 `Markwcl2004/tank-battle` 仓库跳过来
 
 ## 1. 做什么，为什么做
 

@@ -2,7 +2,7 @@
 
 照着 FC《坦克大战》（Battle City）复刻的网页游戏，单人闯关，35 关，电脑和手机都能玩。
 
-在线地址：https://markwcl2004.github.io/tank-battle/
+在线地址：https://markwcl2004.github.io/games/tank-battle/ （旧链接 https://markwcl2004.github.io/tank-battle/ 会自动跳转过来）
 
 ## 怎么玩
 
